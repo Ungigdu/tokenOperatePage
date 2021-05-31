@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>ERC20 devpage</title>
+  <!-- head 中 -->
+  <script type="module">
+    import { ethers } from "../js/ethers-5.0.esm.min.js";
+      window.ethers = ethers;
+  </script>
+  <script src="../js/bignumber.mini.js"></script>
+  <script src="../js/jquery.mini.js"></script>
+</head>
+
+<body>
+  <a href="../"> back</a>
+  <br>
+
+  <p style="color:orange">using address:<span id="my_address"></span></p>
+
+  <div>
+    <p style="color:green">check balance:</p>
+    <span>token:
+      <input type="text" id="check_balance_token" style="width:220px"></span>
+    balanceOf
+    <input type="text" id="check_balance_account" style="width:220px"></span>
+    is: <span id="amount"></span> (symbol <span id="symbol"></span>
+    , decimal <span id="decimal"></span> )
+    <button id="query_balance">query</button>
+    </span>
+  </div>
+
+  <div>
+    <p style="color:red">approve:</p>
+    <span>approve token (large allowance)
+      <input type="text" id="approve_token" style="width:220px"></span>
+    to
+    <input type="text" id="approve_account" style="width:220px"></span>
+    <button id="approve">approve</button>
+    </span>
+  </div>
+
+</body>
+<script type="module" src="../js/app.js"></script>
+<script type="module" src="app.js"></script>
+
+</html>
