@@ -21,9 +21,11 @@ export const batchMint = async (token_address, to, amount, provider, signer) => 
 window.batchMint = batchMint
 
 export const getLogFromTo = async(token_address, user_address, provider) => {
-  let logFrom = await getLogTransferFilterFrom(token_address, user_address, provider)
-  let logTo = await getLogTransferFilterTo(token_address, user_address, provider)
-  return mergeLog(logFrom,logTo)
+  let result = await Promise.all([
+    getLogTransferFilterFrom(token_address, user_address, provider),
+    getLogTransferFilterTo(token_address, user_address, provider)
+  ])
+  return mergeLog(result[0],result[1])
 }
 
 window.getLogFromTo = getLogFromTo
