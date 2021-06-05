@@ -48,6 +48,14 @@ export const createPair = async (tokenA, tokenB, waitMinutes, aswp, signer) => {
   return await aswp.connect(signer).createPairAsA(ownerB, tokenA, tokenB, waitMinutes)
 }
 
+export const checkPair = async (addressA, addressB, aswp) => {
+  let pair = await aswp.getPair(addressA, addressB)
+  return {
+    tokenA: pair[0].toString(),
+    tokenB: pair[1].toString(),
+    deadline: pair[2].toString()
+  }
+}
 
 export const listTokenInfo = async(aswp, tokenId) => {
   let log_machine_create = await (async () => {
@@ -103,6 +111,7 @@ $("#swap_address").html(aswp_address)
  window.burn = burn
  window.listTokenInfo = listTokenInfo
  window.createPair = createPair
+ window.checkPair = checkPair
 
 
  window.assets = {
@@ -216,4 +225,15 @@ $("#swap_address").html(aswp_address)
     let waitMinutes = $("#wait_minutes").val()
     let aswp = new ethers.Contract(aswp_address, aswp_abi, window.provider)
     await createPair(tokenA, tokenB, waitMinutes, aswp, window.me)
+  })
+
+  $("#check_pair").click( async ()=>{
+    let addressA = $("#show_pair_address_A").val()
+    let addressB = $("#show_pair_address_B").val()
+    let aswp = new ethers.Contract(aswp_address, aswp_abi, window.provider)
+    let pair = await checkPair(addressA, addressB, aswp)
+    let pair_text = "pair_A:" + pair.tokenA + "\n" +
+                    "pair_B:" + pair.tokenB + "\n" +
+                    "deadline:" + pair.deadline
+    $("#pair_info").val(pair_text)
   })
