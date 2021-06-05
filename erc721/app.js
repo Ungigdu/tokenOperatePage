@@ -83,9 +83,9 @@ const getLogTransfer = async(token_address, user_address, type, provider) => {
 $("#query_owner").click(async () =>{
   let token_address = $("#check_owner_token").val();
   let token_id = $("#check_owner_id").val();
-  let [owner, id] = await tokenInfo(token_address, token_id, window.provider)
+  let [owner, uri] = await tokenInfo(token_address, token_id, window.provider)
   $("#owner").html(owner)
-  $("#token_uri").html(id)
+  $("#token_uri").html(uri).attr("href", uri)
 })
 
 $("#approve").click(async ()=>{
