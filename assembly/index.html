@@ -17,7 +17,7 @@
   <a href="../"> back</a>
   <br>
   <p style="color:orange">using address:<span id="my_address"></span></p>
-  <p> NFT Swap address: 0x85F185ef49B28eb8bBCFF78e4f8AdE7054c666E4</p>
+  <p> NFT Swap address: <span id="swap_address"></span></p>
 
   <p>10**18 = 1000000000000000000</p>
 
@@ -61,6 +61,13 @@
     <button id="burn">burn</button>
   </div>
 
+  <div>
+    <p style="color:red">create pair :</p>
+    my token: <input type="text" id="create_pair_tokenA" style="width:220px"/><br>
+    other token:  <input type="text" id="create_pair_tokenB" style="width:220px"/><br>
+    wait minutes: <input type="text" id="wait_minutes"/>
+    <button id="create_pair">create pair</button>
+  </div>
 
 </body>
 <script type="module" src="../js/app.js"></script>

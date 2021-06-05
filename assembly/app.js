@@ -2,8 +2,6 @@ import {
   aswp_abi
 } from "./abi.js";
 
-const aswp_address = "0x85F185ef49B28eb8bBCFF78e4f8AdE7054c666E4"
-
 //example await mint("0xcd0E2d0d4F6AC79cB66a97505DBca96B1FAc21ca", "1000000000000000000", [],[],[],[],[],[],[],aswp, me)
 export const mint = async (to, eth, erc20_addresses, erc20_amounts, erc721_addresses, erc721_ids, erc1155_addresses, erc1155_ids, erc1155_amounts, aswp, signer) => {
   if(erc20_addresses.length != erc20_amounts.length) throw "erc20 length mismatch";
@@ -17,7 +15,7 @@ export const mint = async (to, eth, erc20_addresses, erc20_amounts, erc721_addre
     console.log(adds, numbers)
   return await aswp.connect(signer).mint(to, adds, numbers, {value:eth})
 }
-window.mint = mint
+
 
 export const safeMint = async (to, eth, erc20_addresses, erc20_amounts, erc721_addresses, erc721_ids, erc1155_addresses, erc1155_ids, erc1155_amounts, aswp, signer) => {
   if(erc20_addresses.length != erc20_amounts.length) throw "erc20 length mismatch";
@@ -31,7 +29,6 @@ export const safeMint = async (to, eth, erc20_addresses, erc20_amounts, erc721_a
   return await aswp.connect(signer).safeMint(to, adds, numbers, {value:eth})
 }
 
-window.safeMint = safeMint
 
 //example await burn("0xcd0E2d0d4F6AC79cB66a97505DBca96B1FAc21ca", 0,"92063250739912222829681859400879777781478015025502172386685207871039626997248","1000000000000000000", [],[],[],[],[],[],[],aswp, me)
 export const burn = async (to, salt,tokenId,eth, erc20_addresses, erc20_amounts, erc721_addresses, erc721_ids, erc1155_addresses, erc1155_ids, erc1155_amounts, aswp, signer) => {
@@ -46,7 +43,11 @@ export const burn = async (to, salt,tokenId,eth, erc20_addresses, erc20_amounts,
   return await aswp.connect(signer).burn(to, tokenId, salt, adds, numbers)
 }
 
-window.burn = burn
+export const createPair = async (tokenA, tokenB, waitMinutes, aswp, signer) => {
+  let ownerB = await aswp.ownerOf(tokenB)
+  return await aswp.connect(signer).createPairAsA(ownerB, tokenA, tokenB, waitMinutes)
+}
+
 
 export const listTokenInfo = async(aswp, tokenId) => {
   let log_machine_create = await (async () => {
@@ -58,7 +59,6 @@ export const listTokenInfo = async(aswp, tokenId) => {
     return decodedEvents
   })()
 
-  window.listTokenInfo = listTokenInfo
 
   return log_machine_create.map(x=>{
     let args = x.args
@@ -93,6 +93,18 @@ export const listTokenInfo = async(aswp, tokenId) => {
 
 
  //---------------bind--------------------------------
+
+ const aswp_address = "0xD22ef9879B9E0F7586a50325A1570bE8E2FACE65"
+
+$("#swap_address").html(aswp_address)
+
+ window.mint = mint
+ window.safeMint = safeMint
+ window.burn = burn
+ window.listTokenInfo = listTokenInfo
+ window.createPair = createPair
+
+
  window.assets = {
    eth:0,
    erc20Address:[],
@@ -196,4 +208,12 @@ export const listTokenInfo = async(aswp, tokenId) => {
     await burn(window.myAddress, r.salt, ethers.BigNumber.from(token_id), r.numbers[0],
     r.erc20Address, r.amount20.map(x=>x.toString()), r.erc721Address, r.id721.map(x=>x.toString()),
     r.erc1155Address, r.id1155.map(x=>x.toString()), r.amount1155.map(x=>x.toString()), aswp, window.me)
+  })
+
+  $("#create_pair").click( async ()=>{
+    let tokenA = $("#create_pair_tokenA").val()
+    let tokenB = $("#create_pair_tokenB").val()
+    let waitMinutes = $("#wait_minutes").val()
+    let aswp = new ethers.Contract(aswp_address, aswp_abi, window.provider)
+    await createPair(tokenA, tokenB, waitMinutes, aswp, window.me)
   })
