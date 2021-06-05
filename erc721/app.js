@@ -94,12 +94,12 @@ $("#approve").click(async ()=>{
   await setApproveAll(token_address, account, true, window.provider, window.me)
 })
 
-const batch_nft = "0x17f7EeeE3761CCCF9948C117F52d202aE9E0b5D7"
 
 $("#batch_mint").click(async ()=>{
+  let batch_address = $("#batch_address").val()
   let to = $("#target_address").val()
   let amount = $("#amount").val()
-  await batchMint(batch_nft, to, amount, window.provider, window.me)
+  await batchMint(batch_address, to, amount, window.provider, window.me)
 })
 
 $("#query_tokens").click(async ()=>{
