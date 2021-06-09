@@ -106,7 +106,7 @@ export const listTokenInfo = async(aswp, tokenId) => {
 
  //---------------bind--------------------------------
 
- const aswp_address = "0xD22ef9879B9E0F7586a50325A1570bE8E2FACE65"
+ const aswp_address = "0x7f5463Dfb5F54696b3c1222a5de641b9C567aDc3"
 
 $("#swap_address").html(aswp_address)
 
